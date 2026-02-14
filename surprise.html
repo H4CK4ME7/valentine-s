@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Magical Surprise ❤️</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-slim@2.0.6/tsparticles.slim.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #ff0a54;
+            --secondary-color: #ffbd00;
+            --bg-dark: #0f0508;
+        }
+        body {
+            margin: 0; padding: 0;
+            min-height: 100vh;
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+            color: white;
+        }
+
+        #tsparticles { position: fixed; width: 100%; height: 100%; z-index: -1; }
+
+        .stage-container {
+            position: relative; z-index: 10;
+            text-align: center; width: 100%; max-width: 500px; padding: 20px;
+        }
+
+        /* --- INTRO STAGE --- */
+        #intro-stage {
+            display: flex; flex-direction: column; align-items: center;
+            perspective: 1000px;
+        }
+        .intro-title {
+            font-family: 'Great Vibes'; font-size: 2.5rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255, 10, 84, 0.5);
+            margin-bottom: 40px; opacity: 0.8;
+        }
+        .magic-gift-container {
+            width: 150px; height: 150px;
+            position: relative; cursor: pointer;
+            transform-style: preserve-3d;
+            animation: floatGift 4s ease-in-out infinite;
+        }
+        .magic-gift {
+            width: 100%; height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), #ff477e);
+            transform: rotate(45deg);
+            position: absolute;
+            box-shadow: 0 0 50px rgba(255, 10, 84, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+        }
+        .magic-gift::before, .magic-gift::after {
+            content: ''; position: absolute; background: rgba(255,215,0, 0.8);
+             box-shadow: 0 0 15px rgba(255,215,0, 0.8);
+        }
+        .magic-gift::before { width: 100%; height: 25px; top: 50%; left: 0; transform: translateY(-50%); }
+        .magic-gift::after { width: 25px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+
+        .tap-hint {
+            margin-top: 50px; font-weight: 300; letter-spacing: 2px;
+            animation: pulseText 2s infinite;
+        }
+
+        @keyframes floatGift {
+            0%, 100% { transform: translateY(0) rotateX(10deg) rotateY(-10deg); }
+            50% { transform: translateY(-20px) rotateX(10deg) rotateY(10deg); }
+        }
+        @keyframes pulseText { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        /* --- MAIN STAGE --- */
+        #main-stage {
+            display: none;
+            flex-direction: column; align-items: center;
+            opacity: 0;
+        }
+
+        .shining-title {
+            font-family: 'Great Vibes', cursive; font-size: 3.5rem; line-height: 1.1;
+            background: linear-gradient(to right, var(--primary-color) 20%, var(--secondary-color) 50%, var(--primary-color) 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shineMove 3s linear infinite;
+            filter: drop-shadow(0 0 15px rgba(255, 10, 84, 0.3));
+            margin-bottom: 30px;
+        }
+        @keyframes shineMove { to { background-position: 200% center; } }
+
+        .photo-orb-container {
+            width: 280px; height: 280px;
+            position: relative; margin: 20px auto;
+            border-radius: 50%;
+            box-shadow: 
+                0 0 30px var(--primary-color),
+                0 0 60px var(--primary-color),
+                inset 0 0 30px var(--primary-color);
+            animation: orbFloat 5s ease-in-out infinite;
+        }
+        .photo-orb-container::after {
+            content: ''; position: absolute; top: -5%; left: -5%; width: 110%; height: 110%;
+            border-radius: 50%; border: 2px solid rgba(255,255,255,0.5);
+            border-top-color: transparent; border-bottom-color: transparent;
+            animation: spinRing 10s linear infinite;
+        }
+        .my-photo {
+            width: 100%; height: 100%;
+            object-fit: cover; border-radius: 50%;
+            -webkit-mask-image: radial-gradient(circle, white 100%, black 100%);
+        }
+        @keyframes orbFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes spinRing { to { transform: rotate(360deg); } }
+
+        .message-box {
+            margin-top: 30px; font-size: 1.1rem; font-weight: 300;
+            min-height: 80px; line-height: 1.6;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .flash-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; z-index: 100; pointer-events: none; opacity: 0;
+        }
+        
+        .music-unlock {
+            position: fixed; bottom: 20px; font-size: 0.8rem; opacity: 0.6; cursor: pointer; z-index: 20;
+        }
+        
+        /* Back Button */
+        .back-home {
+            margin-top: 20px; text-decoration: none; color: white;
+            border: 1px solid rgba(255,255,255,0.3); padding: 8px 20px;
+            border-radius: 30px; font-size: 0.9rem; opacity: 0;
+            transition: 0.3s;
+        }
+        .back-home:hover { background: rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop preload="auto" src="bg-music.mp3"></audio> 
+    <audio id="openSound" preload="auto" src="love_song.mp3"></audio> <div id="tsparticles"></div>
+    <div class="flash-overlay"></div>
+
+    <div class="stage-container">
+        
+        <div id="intro-stage">
+            <div class="intro-title">Something magical for you...</div>
+            <div class="magic-gift-container" onclick="triggerReveal()">
+                <div class="magic-gift"></div>
+            </div>
+            <div class="tap-hint">Tap the gift to cast the spell ✨</div>
+        </div>
+
+        <div id="main-stage">
+            <div class="shining-title">Happy<br>Valentine's Day!</div>
+            
+            <div class="photo-orb-container">
+                <img src="img/suprise.jpg" alt="My Love" class="my-photo">
+            </div>
+
+            <div id="typing-text" class="message-box"></div>
+            
+            <a href="index.html" class="back-home" id="backBtn">Go Back Home</a>
+        </div>
+
+    </div>
+    
+    <div class="music-unlock" id="musicStatus">🎵 Sound muted (Tap gift to start)</div>
+
+    <script>
+        // Particles Config
+        tsParticles.load("tsparticles", {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: ["#ff0a54", "#ffbd00", "#ffffff"] },
+                shape: { type: "circle" },
+                opacity: { value: 0.6, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 4, random: true, anim: { enable: true, speed: 2, size_min: 0.1, sync: false } },
+                move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, out_mode: "out", bounce: false }
+            },
+            interactivity: { detect_on: "canvas", events: { onhover: { enable: true, mode: "bubble" }, resize: true } },
+            retina_detect: true, background: { color: "#0f0508" }
+        });
+
+        let isRevealed = false;
+        const bgMusic = document.getElementById('bgMusic');
+        const openSound = document.getElementById('openSound');
+
+        function triggerReveal() {
+            if (isRevealed) return;
+            isRevealed = true;
+            document.getElementById('musicStatus').style.display = 'none';
+
+            // PLAY AUDIO
+            bgMusic.volume = 0.5;
+            bgMusic.play().catch(e => console.log("Music error:", e));
+            
+            // Try to play sound effect if file exists
+            openSound.volume = 0.6;
+            openSound.play().catch(e => console.log("SFX error (File missing?):", e));
+
+            // Animation Timeline
+            const timeline = anime.timeline({ easing: 'easeInOutQuad' });
+
+            timeline
+            .add({
+                targets: '.magic-gift-container',
+                scale: [1, 0.1], opacity: 0, duration: 800,
+            })
+            .add({
+                targets: '.flash-overlay',
+                opacity: [0, 0.8, 0], duration: 600, offset: '-=400',
+                begin: () => { fireworksExplosion(); }
+            })
+            .add({
+                targets: '#intro-stage',
+                opacity: 0, duration: 100,
+                complete: () => {
+                    document.getElementById('intro-stage').style.display = 'none';
+                    document.getElementById('main-stage').style.display = 'flex';
+                }
+            })
+            .add({
+                targets: '#main-stage', opacity: [0, 1], duration: 1000,
+            })
+            .add({
+                targets: ['.shining-title', '.photo-orb-container', '.message-box'],
+                translateY: [50, 0], opacity: [0, 1], delay: anime.stagger(300), duration: 1000,
+                complete: () => { startTyping(); } 
+            }, '-=800')
+            .add({
+                targets: '#backBtn', opacity: [0, 1], duration: 1000, delay: 2000
+            });
+        }
+
+        function fireworksExplosion() {
+            const duration = 3000; const end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 10, angle: 60, spread: 80, origin: { x: 0 }, colors:['#ff0a54', '#ffbd00', '#ffffff'] });
+                confetti({ particleCount: 10, angle: 120, spread: 80, origin: { x: 1 }, colors:['#ff0a54', '#ffbd00', '#ffffff'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+
+        const text = "တကယ်တော့... မ မရှိတဲ့ ကိုပိုင်ဘဝကို စိတ်ကူးနဲ့တောင် ပုံဖော်ကြည့်ဖို့ မရဲတော့ဘူး။မက ကိုပိုင်ရဲ့ အချစ်ရဆုံးဆိုတာထက်...ကိုပိုင်ရဲ့'အသက်' ဆိုရင် ပိုမှန်လိမ့်မယ်။ကိုပိုင်လောကကြီးတစ်ခုလုံးက မအပေါ်မှာပဲမူတည်နေတော့တာမို့... ဒီလက်ကိုဘယ်တော့မှမလွှတ်တမ်း တွဲထားပေးပါနော်။မရှိနေမှ ကိုယ့်ဘဝက ပြည့်စုံတာပါ။ မ မရှိရင် ကိုပိုင်ဆိုတာဖြစ်လာမှာမဟုတ်ဘူး။အရမ်းချစ်တယ်ဗျာ ❤️✨";
+        let idx = 0;
+        function startTyping() {
+            const el = document.getElementById('typing-text');
+            if (idx < text.length) {
+                el.innerHTML += text.charAt(idx); idx++; setTimeout(startTyping, 60);
+            }
+        }
+    </script>
+</body>
+</html>
