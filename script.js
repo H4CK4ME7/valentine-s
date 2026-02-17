@@ -41,7 +41,7 @@ const COMPLIMENTS = [
 ];
 const COUPONS = ["၁ ရက် စိတ်မဆိုးကြေး 🏳️", "Ice Cream ဝယ်ကျွေးရမည် 🍦", "ခြေထောက်နှိပ်ပေးကြေး 🦶", "ကြိုက်တာတစ်ခု အလိုလိုက်ခွင့် 🧞‍♂️"];
 const RIDDLES = ["fridge", "မရဲ့အပြုံး", "Ma Smile"];
-const QUESTIONS = [{ q: "မ အကြိုက်ဆုံး အစားအစာ?", a: [{t:"ဒိန်ချဉ် အုန်းသီးဖြူးစားတာ",c:true}, {t:"KFC",c:false}] }, { q: "ကိုပိုင်ရဲ မွေးနေ့?", a: [{t:"18-02-1994",c:true}, {t:"27-12-1985",c:false}] }];
+const QUESTIONS = [{ q: "မ အကြိုက်ဆုံး အစားအစာ?", a: [{t:"ဒိန်ချဉ် အုန်းသီးဖြူးစားတာ",c:true}, {t:"KFC",c:false}] }, { q: "ကိုပိုင်ရဲ မွေးနေ့?", a: [{t:"18-02-1994",c:true}, {t:"17-12-1995",c:false}] }];
 
 // --- MUSIC PLAYER DATA (10 SONGS) ---
 const trackList = [
